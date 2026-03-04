@@ -510,7 +510,7 @@
     }
 
     .hero-photo-inner img {
-      width: 320px;
+      width: 360px;
       max-width: 100%;
       height: auto;
       object-fit: cover;
@@ -540,7 +540,7 @@
       backdrop-filter: blur(18px);
       display: grid;
       gap: 4px;
-      min-width: 190px;
+      min-width: 200px;
       transform: translateY(0);
       animation: float 4s ease-in-out infinite;
     }
@@ -1418,6 +1418,12 @@
     }
 
     @media (max-width: 640px) {
+      .hero {
+        padding: 40px 0 50px;
+      }
+      .container {
+        padding: 0 16px;
+      }
       .benefits-grid,
       .testimonials-grid,
       .pricing-grid,
@@ -1429,7 +1435,16 @@
       }
       .hero-actions {
         flex-direction: column;
-        align-items: flex-start;
+        align-items: stretch;
+      }
+      .hero-actions .btn-gradient,
+      .hero-actions .btn-outline {
+        justify-content: center;
+        width: 100%;
+      }
+      .hero-clients {
+        flex-direction: row;
+        align-items: center;
       }
       .hero-floating-card {
         position: static;
@@ -1526,9 +1541,9 @@
           </div>
           <div class="hero-clients">
             <div class="hero-avatars">
-              <div class="avatar" style="background-image:url('https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=200&q=80');"></div>
-              <div class="avatar" style="background-image:url('https://images.unsplash.com/photo-1525134479668-1bee5c7c6845?auto=format&fit=crop&w=200&q=80');"></div>
-              <div class="avatar" style="background-image:url('https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=200&q=80');"></div>
+              <div class="avatar" style="background-image:url('https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=300&q=80');"></div>
+              <div class="avatar" style="background-image:url('https://images.unsplash.com/photo-1536964549204-655d2a431434?auto=format&fit=crop&w=300&q=80');"></div>
+              <div class="avatar" style="background-image:url('https://images.unsplash.com/photo-1544145945-f90425340c7e?auto=format&fit=crop&w=300&q=80');"></div>
               <div class="avatar more">+</div>
             </div>
             <span>1200+ довольных владельцев баров и кофеен по СНГ</span>
@@ -1539,8 +1554,8 @@
           <div class="hero-photo-wrap">
             <div class="hero-photo-inner">
               <img
-                src="https://images.unsplash.com/photo-1517705008128-361805f42e86?auto=format&fit=crop&w=900&q=80"
-                alt="Барный консультант Beverage office"
+                src="https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=1100&q=80"
+                alt="Бар и кофейня под консалтинг Beverage office"
               />
             </div>
             <div class="hero-photo-glow"></div>
@@ -2121,7 +2136,7 @@
             }
           } else {
             el.innerHTML = 'от&nbsp;' + withSub + '&nbsp;000₸';
-            if (periodSpan && !periodSpan.textContent.includes('подписки')) {
+            if (periodSpan && !periodSpan.text内容?.includes?.('подписки')) {
               periodSpan.textContent += ' + 1 месяц подписки';
             }
           }
