@@ -1,0 +1,2159 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <title>Beverage office — Консалтинг по бару и кофе</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --bg-page: #f8f8ff;
+      --bg-card: #ffffff;
+      --text-main: #151515;
+      --text-muted: #666a73;
+      --border-soft: #e3e4ee;
+      --accent-1: #c97a3a;
+      --accent-2: #f2b36c;
+      --accent-soft: rgba(201, 122, 58, 0.08);
+      --radius-lg: 28px;
+      --shadow-soft: 0 18px 45px rgba(14, 22, 40, 0.08);
+      --shadow-subtle: 0 10px 30px rgba(14, 22, 40, 0.05);
+      --transition-fast: 0.25s ease-out;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      scroll-behavior: smooth;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
+        "Segoe UI", sans-serif;
+      color: var(--text-main);
+      background: radial-gradient(circle at top left, #ffffff 0, var(--bg-page) 55%, #f0f1ff 100%);
+    }
+
+    body {
+      line-height: 1.6;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .accent-gradient {
+      background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+      color: transparent;
+      -webkit-background-clip: text;
+      background-clip: text;
+    }
+
+    .btn-gradient {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 14px 28px;
+      border-radius: 999px;
+      border: none;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 15px;
+      color: #fff;
+      background-image: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+      box-shadow: 0 14px 35px rgba(201, 122, 58, 0.35);
+      transition: transform var(--transition-fast),
+        box-shadow var(--transition-fast), filter var(--transition-fast);
+      white-space: nowrap;
+    }
+
+    .btn-gradient:hover {
+      transform: translateY(-1px) scale(1.02);
+      filter: brightness(1.05);
+      box-shadow: 0 18px 45px rgba(201, 122, 58, 0.45);
+    }
+
+    .btn-outline {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 13px 26px;
+      border-radius: 999px;
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      background: rgba(255, 255, 255, 0.8);
+      backdrop-filter: blur(12px);
+      color: var(--text-main);
+      font-weight: 500;
+      font-size: 14px;
+      cursor: pointer;
+      transition: border-color var(--transition-fast),
+        background-color var(--transition-fast),
+        box-shadow var(--transition-fast),
+        transform var(--transition-fast);
+      white-space: nowrap;
+    }
+
+    .btn-outline:hover {
+      border-color: rgba(201, 122, 58, 0.6);
+      box-shadow: 0 12px 30px rgba(14, 22, 40, 0.08);
+      transform: translateY(-1px);
+      background: #ffffff;
+    }
+
+    .section-label {
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+
+    .section-label::before {
+      content: "";
+      width: 9px;
+      height: 9px;
+      border-radius: 999px;
+      background: radial-gradient(circle, var(--accent-2) 0, var(--accent-1) 70%, transparent 100%);
+      box-shadow: 0 0 0 0 rgba(201, 122, 58, 0.5);
+      animation: pulse-dot 2s infinite;
+    }
+
+    @keyframes pulse-dot {
+      0% {
+        box-shadow: 0 0 0 0 rgba(201, 122, 58, 0.5);
+      }
+      70% {
+        box-shadow: 0 0 0 10px rgba(201, 122, 58, 0);
+      }
+      100% {
+        box-shadow: 0 0 0 0 rgba(201, 122, 58, 0);
+      }
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1160px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* NAVBAR */
+    .navbar {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      backdrop-filter: blur(18px);
+      background: rgba(248, 248, 255, 0.92);
+      border-bottom: 1px solid rgba(227, 228, 238, 0.8);
+      box-shadow: 0 12px 30px rgba(15, 23, 42, 0.05);
+    }
+
+    .navbar-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 20px;
+      max-width: 1160px;
+      margin: 0 auto;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+      font-size: 19px;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .logo-mark {
+      width: 30px;
+      height: 30px;
+      border-radius: 14px;
+      background-image: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-size: 16px;
+      box-shadow: 0 12px 28px rgba(201, 122, 58, 0.5);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 22px;
+      font-size: 14px;
+    }
+
+    .nav-links a {
+      position: relative;
+      color: var(--text-muted);
+      font-weight: 500;
+      padding: 4px 0;
+      white-space: nowrap;
+    }
+
+    .nav-links a::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -4px;
+      width: 0;
+      height: 2px;
+      border-radius: 999px;
+      background-image: linear-gradient(90deg, var(--accent-1), var(--accent-2));
+      transition: width var(--transition-fast);
+    }
+
+    .nav-links a:hover {
+      color: var(--text-main);
+    }
+
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+
+    .nav-cta {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      white-space: nowrap;
+    }
+
+    .nav-cta span {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    .nav-cta strong {
+      color: var(--text-main);
+      font-weight: 600;
+    }
+
+    .burger {
+      display: none;
+      width: 36px;
+      height: 36px;
+      border-radius: 999px;
+      border: 1px solid rgba(0, 0, 0, 0.06);
+      align-items: center;
+      justify-content: center;
+      background: #ffffffbb;
+      backdrop-filter: blur(16px);
+      cursor: pointer;
+    }
+
+    .burger-line {
+      width: 18px;
+      height: 2px;
+      background: #20222b;
+      border-radius: 999px;
+      position: relative;
+    }
+
+    .burger-line::before,
+    .burger-line::after {
+      content: "";
+      width: 18px;
+      height: 2px;
+      border-radius: 999px;
+      background: #20222b;
+      position: absolute;
+      left: 0;
+    }
+
+    .burger-line::before {
+      top: -5px;
+    }
+
+    .burger-line::after {
+      top: 5px;
+    }
+
+    .nav-links.mobile-hidden {
+      display: flex;
+    }
+
+    .nav-links.mobile-show {
+      display: flex;
+      flex-direction: column;
+      position: absolute;
+      left: 16px;
+      right: 16px;
+      top: 62px;
+      padding: 16px 18px;
+      border-radius: 18px;
+      background: rgba(248, 248, 255, 0.98);
+      box-shadow: 0 16px 45px rgba(15, 23, 42, 0.18);
+      border: 1px solid rgba(227, 228, 238, 0.98);
+      z-index: 950;
+    }
+
+    /* HERO */
+    .hero {
+      position: relative;
+      padding: 70px 0 80px;
+      overflow: hidden;
+    }
+
+    .hero::before,
+    .hero::after {
+      content: "";
+      position: absolute;
+      border-radius: 999px;
+      filter: blur(90px);
+      opacity: 0.55;
+      pointer-events: none;
+    }
+
+    .hero::before {
+      width: 420px;
+      height: 420px;
+      background: radial-gradient(circle, rgba(201, 122, 58, 0.96), transparent 60%);
+      top: -80px;
+      right: -80px;
+    }
+
+    .hero::after {
+      width: 380px;
+      height: 380px;
+      background: radial-gradient(circle, rgba(242, 179, 108, 0.9), transparent 65%);
+      bottom: -120px;
+      left: -80px;
+    }
+
+    .hero-grid {
+      position: relative;
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+      gap: 44px;
+      align-items: center;
+      z-index: 1;
+    }
+
+    .hero-bg-grid {
+      position: absolute;
+      inset: 40px 0 40px;
+      pointer-events: none;
+      opacity: 0.7;
+      background-image: radial-gradient(circle at 1px 1px, rgba(35, 40, 60, 0.11) 0, transparent 0);
+      background-size: 22px 22px;
+      mask-image: radial-gradient(circle at top, black, transparent 70%);
+    }
+
+    .hero-left h1 {
+      margin: 10px 0 14px;
+      font-size: clamp(38px, 5vw, 50px);
+      letter-spacing: -0.04em;
+      line-height: 1.04;
+    }
+
+    .hero-left p.hero-subtitle {
+      margin: 0 0 22px;
+      font-size: 16px;
+      color: var(--text-muted);
+      max-width: 460px;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      padding: 6px 11px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.9);
+      border: 1px solid rgba(0, 0, 0, 0.04);
+      box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+      font-size: 12px;
+      color: #5a5c65;
+    }
+
+    .hero-badge-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 999px;
+      background-image: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+      box-shadow: 0 0 0 0 rgba(201, 122, 58, 0.7);
+      animation: badge-dot 1.8s infinite;
+    }
+
+    @keyframes badge-dot {
+      0% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(201, 122, 58, 0.7);
+      }
+      70% {
+        transform: scale(1.08);
+        box-shadow: 0 0 0 10px rgba(201, 122, 58, 0);
+      }
+      100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(201, 122, 58, 0);
+      }
+    }
+
+    .hero-checks {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px 16px;
+      margin-bottom: 26px;
+      max-width: 520px;
+    }
+
+    .hero-check {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      font-size: 13px;
+      color: #505360;
+    }
+
+    .hero-check-icon {
+      width: 18px;
+      height: 18px;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      color: #ffffff;
+      background-image: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+      box-shadow: 0 8px 20px rgba(201, 122, 58, 0.45);
+      flex-shrink: 0;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      align-items: center;
+      margin-bottom: 18px;
+    }
+
+    .hero-clients {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 13px;
+      color: var(--text-muted);
+      flex-wrap: wrap;
+    }
+
+    .hero-avatars {
+      display: flex;
+      align-items: center;
+    }
+
+    .avatar {
+      width: 28px;
+      height: 28px;
+      border-radius: 999px;
+      border: 2px solid #ffffff;
+      background-size: cover;
+      background-position: center;
+      box-shadow: 0 8px 16px rgba(15, 23, 42, 0.3);
+      margin-left: -10px;
+    }
+
+    .avatar:first-child {
+      margin-left: 0;
+    }
+
+    .avatar.more {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+      color: #fff;
+      font-size: 11px;
+      font-weight: 600;
+    }
+
+    .hero-right {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .hero-photo-wrap {
+      position: relative;
+      padding: 5px;
+      border-radius: 36px;
+      background: linear-gradient(145deg, rgba(201, 122, 58, 0.4), rgba(242, 179, 108, 0.1));
+      box-shadow: 0 26px 80px rgba(15, 23, 42, 0.35);
+      overflow: visible;
+      max-width: 100%;
+    }
+
+    .hero-photo-inner {
+      border-radius: 30px;
+      overflow: hidden;
+      background: #000;
+      position: relative;
+    }
+
+    .hero-photo-inner img {
+      width: 320px;
+      max-width: 100%;
+      height: auto;
+      object-fit: cover;
+      transform: scale(1.03);
+      transform-origin: center;
+    }
+
+    .hero-photo-glow {
+      position: absolute;
+      inset: 15% -20%;
+      background: radial-gradient(circle, rgba(201, 122, 58, 0.8), transparent 65%);
+      filter: blur(40px);
+      opacity: 0.75;
+      z-index: -1;
+    }
+
+    .hero-floating-card {
+      position: absolute;
+      right: -28px;
+      bottom: 40px;
+      padding: 12px 16px;
+      border-radius: 18px;
+      background: rgba(16, 18, 26, 0.96);
+      color: #ffffff;
+      font-size: 12px;
+      box-shadow: 0 18px 40px rgba(15, 23, 42, 0.6);
+      backdrop-filter: blur(18px);
+      display: grid;
+      gap: 4px;
+      min-width: 190px;
+      transform: translateY(0);
+      animation: float 4s ease-in-out infinite;
+    }
+
+    .hero-floating-card strong {
+      font-size: 14px;
+    }
+
+    .hero-floating-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .rating-stars {
+      color: #fbbf24;
+      font-size: 13px;
+      letter-spacing: 1px;
+    }
+
+    .hero-floating-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 9px;
+      border-radius: 999px;
+      font-size: 11px;
+      background: rgba(248, 250, 252, 0.1);
+      border: 1px solid rgba(148, 163, 184, 0.4);
+    }
+
+    .hero-floating-chip span.dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background-image: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+    }
+
+    @keyframes float {
+      0%, 100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-8px);
+      }
+    }
+
+    /* MARQUEE */
+    .marquee {
+      border-top: 1px solid rgba(227, 228, 238, 0.85);
+      border-bottom: 1px solid rgba(227, 228, 238, 0.85);
+      background: rgba(248, 248, 255, 0.9);
+      overflow: hidden;
+    }
+
+    .marquee-inner {
+      display: flex;
+      align-items: center;
+      gap: 80px;
+      padding: 14px 0;
+      color: #a0a3b0;
+      font-size: 13px;
+      font-weight: 500;
+      white-space: nowrap;
+      animation: marquee 24s linear infinite;
+    }
+
+    .marquee-logo {
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      position: relative;
+    }
+
+    .marquee-logo::before {
+      content: "•";
+      margin-right: 18px;
+      color: rgba(160, 163, 176, 0.5);
+    }
+
+    @keyframes marquee {
+      0% {
+        transform: translateX(0);
+      }
+      100% {
+        transform: translateX(-50%);
+      }
+    }
+
+    /* GENERIC SECTIONS */
+    section {
+      padding: 70px 0;
+      position: relative;
+    }
+
+    .section-title {
+      font-size: 28px;
+      letter-spacing: -0.03em;
+      margin-bottom: 10px;
+    }
+
+    .section-description {
+      font-size: 15px;
+      color: var(--text-muted);
+      max-width: 520px;
+      margin-bottom: 30px;
+    }
+
+    /* BENEFITS */
+    .benefits-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 22px;
+    }
+
+    .card {
+      position: relative;
+      padding: 20px 20px 22px;
+      border-radius: 22px;
+      background: var(--bg-card);
+      box-shadow: var(--shadow-subtle);
+      border: 1px solid rgba(227, 228, 238, 0.9);
+      transition: transform var(--transition-fast),
+        box-shadow var(--transition-fast),
+        border-color var(--transition-fast),
+        background-color var(--transition-fast);
+      overflow: hidden;
+    }
+
+    .card-icon-circle {
+      width: 42px;
+      height: 42px;
+      border-radius: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      color: #fff;
+      background-image: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+      box-shadow: 0 16px 36px rgba(201, 122, 58, 0.45);
+      margin-bottom: 14px;
+    }
+
+    .card h3 {
+      margin: 0 0 8px;
+      font-size: 17px;
+    }
+
+    .card p {
+      margin: 0;
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+
+    .card-hover-glow {
+      position: absolute;
+      inset: 55% -40%;
+      background: radial-gradient(circle, rgba(201, 122, 58, 0.7), transparent 70%);
+      opacity: 0;
+      filter: blur(28px);
+      transition: opacity var(--transition-fast), transform var(--transition-fast);
+    }
+
+    .card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 22px 60px rgba(15, 23, 42, 0.18);
+      border-color: rgba(201, 122, 58, 0.45);
+    }
+
+    .card:hover .card-hover-glow {
+      opacity: 1;
+      transform: translateY(-10px);
+    }
+
+    /* STATS */
+    .stats-section {
+      padding: 60px 0;
+    }
+
+    .stats-inner {
+      border-radius: 26px;
+      padding: 32px 32px 28px;
+      background-image: linear-gradient(120deg, var(--accent-1), var(--accent-2));
+      color: #fff;
+      box-shadow: 0 28px 80px rgba(201, 122, 58, 0.55);
+      display: grid;
+      grid-template-columns: minmax(0, 1.4fr) minmax(0, 1.6fr);
+      gap: 40px;
+      align-items: center;
+    }
+
+    .stats-text h2 {
+      font-size: 24px;
+      margin: 0 0 8px;
+    }
+
+    .stats-text p {
+      margin: 0;
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.8);
+      max-width: 360px;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .stat-item h3 {
+      margin: 0;
+      font-size: 26px;
+      letter-spacing: -0.04em;
+    }
+
+    .stat-item span {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    /* HOW IT WORKS */
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 22px;
+      position: relative;
+    }
+
+    .step-card {
+      padding: 22px 20px 20px;
+      border-radius: 22px;
+      background: rgba(255, 255, 255, 0.95);
+      border: 1px solid rgba(227, 228, 238, 0.95);
+      box-shadow: 0 14px 36px rgba(15, 23, 42, 0.06);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .step-number {
+      width: 32px;
+      height: 32px;
+      border-radius: 999px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--accent-1);
+      background: var(--accent-soft);
+      margin-bottom: 8px;
+    }
+
+    .step-icon {
+      width: 30px;
+      height: 30px;
+      border-radius: 999px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-image: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+      color: #fff;
+      font-size: 16px;
+      margin-bottom: 10px;
+      box-shadow: 0 14px 32px rgba(201, 122, 58, 0.4);
+    }
+
+    .step-card h3 {
+      margin: 0 0 8px;
+      font-size: 16px;
+    }
+
+    .step-card p {
+      margin: 0;
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+
+    .steps-connector {
+      position: absolute;
+      top: 46%;
+      left: 11%;
+      right: 11%;
+      height: 1px;
+      border-top: 1px dashed rgba(201, 122, 58, 0.55);
+      z-index: -1;
+    }
+
+    .steps-connector::before,
+    .steps-connector::after {
+      content: "";
+      position: absolute;
+      width: 9px;
+      height: 9px;
+      border-radius: 999px;
+      background-image: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+      top: -4px;
+    }
+
+    .steps-connector::before {
+      left: 25%;
+    }
+
+    .steps-connector::after {
+      right: 25%;
+    }
+
+    /* TESTIMONIALS */
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 22px;
+    }
+
+    .testimonial-card {
+      padding: 22px 20px 20px;
+      border-radius: 22px;
+      background: #ffffff;
+      border: 1px solid rgba(227, 228, 238, 0.9);
+      box-shadow: 0 18px 50px rgba(15, 23, 42, 0.1);
+      position: relative;
+      overflow: hidden;
+      transition: transform var(--transition-fast),
+        box-shadow var(--transition-fast);
+    }
+
+    .testimonial-card::before {
+      content: "“";
+      position: absolute;
+      top: -22px;
+      right: 18px;
+      font-size: 90px;
+      line-height: 1;
+      background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      opacity: 0.25;
+    }
+
+    .testimonial-text {
+      font-size: 14px;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+    }
+
+    .testimonial-footer {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .avatar-initials {
+      width: 36px;
+      height: 36px;
+      border-radius: 999px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 15px;
+      font-weight: 600;
+      color: #fff;
+      background-image: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+      box-shadow: 0 12px 32px rgba(15, 23, 42, 0.35);
+    }
+
+    .testimonial-info h4 {
+      margin: 0;
+      font-size: 14px;
+    }
+
+    .testimonial-info span {
+      display: block;
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .testimonial-stars {
+      margin-left: auto;
+      font-size: 13px;
+      color: #fbbf24;
+    }
+
+    .testimonial-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 24px 70px rgba(15, 23, 42, 0.16);
+    }
+
+    /* PRICING */
+    .billing-toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px;
+      border-radius: 999px;
+      background: rgba(248, 248, 255, 0.9);
+      border: 1px solid rgba(227, 228, 238, 0.9);
+      margin-bottom: 26px;
+      font-size: 13px;
+      flex-wrap: wrap;
+    }
+
+    .billing-toggle button {
+      border: none;
+      background: transparent;
+      padding: 6px 14px;
+      border-radius: 999px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-muted);
+      transition: background-color var(--transition-fast),
+        color var(--transition-fast);
+    }
+
+    .billing-toggle button.active {
+      background-image: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+      color: #ffffff;
+    }
+
+    .billing-badge {
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      background: rgba(34, 197, 94, 0.1);
+      color: #166534;
+    }
+
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 22px;
+    }
+
+    .pricing-card {
+      position: relative;
+      padding: 22px 20px 22px;
+      border-radius: 24px;
+      background: #ffffff;
+      border: 1px solid rgba(227, 228, 238, 0.95);
+      box-shadow: 0 18px 55px rgba(15, 23, 42, 0.1);
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      overflow: hidden;
+      transition: transform var(--transition-fast),
+        box-shadow var(--transition-fast),
+        border-color var(--transition-fast),
+        background-color var(--transition-fast);
+    }
+
+    .pricing-card.highlight {
+      background-image: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+      border-color: transparent;
+      color: #ffffff;
+      box-shadow: 0 26px 80px rgba(201, 122, 58, 0.7);
+      transform: translateY(-4px);
+    }
+
+    .pricing-card.highlight h3,
+    .pricing-card.highlight p,
+    .pricing-card.highlight li,
+    .pricing-card.highlight span {
+      color: rgba(255, 255, 255, 0.92);
+    }
+
+    .pricing-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 26px 80px rgba(15, 23, 42, 0.16);
+      border-color: rgba(201, 122, 58, 0.45);
+    }
+
+    .pricing-popular-badge {
+      position: absolute;
+      top: 12px;
+      right: 16px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: #fff;
+      background: rgba(15, 23, 42, 0.76);
+      backdrop-filter: blur(14px);
+    }
+
+    .pricing-name {
+      font-size: 18px;
+      margin: 0;
+    }
+
+    .pricing-desc {
+      margin: 0;
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    .pricing-card.highlight .pricing-desc {
+      color: rgba(255, 255, 255, 0.9);
+    }
+
+    .pricing-price {
+      display: flex;
+      align-items: baseline;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .pricing-price strong {
+      font-size: 26px;
+      letter-spacing: -0.04em;
+    }
+
+    .pricing-price span {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    .pricing-list {
+      list-style: none;
+      padding: 0;
+      margin: 8px 0 12px;
+      font-size: 13px;
+    }
+
+    .pricing-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 6px;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+
+    .pricing-list li::before {
+      content: "✓";
+      font-size: 12px;
+      color: var(--accent-1);
+      margin-top: 2px;
+    }
+
+    .pricing-card.highlight .pricing-list li::before {
+      color: #ffffff;
+    }
+
+    .pricing-footer-note {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .pricing-card.highlight .pricing-footer-note {
+      color: rgba(255, 255, 255, 0.78);
+    }
+
+    /* FAQ */
+    .faq-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .faq-item {
+      border-radius: 18px;
+      background: #ffffff;
+      border: 1px solid rgba(227, 228, 238, 0.95);
+      box-shadow: 0 12px 35px rgba(15, 23, 42, 0.08);
+      overflow: hidden;
+      transition: box-shadow var(--transition-fast),
+        border-color var(--transition-fast),
+        background-color var(--transition-fast);
+    }
+
+    .faq-header {
+      padding: 14px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+    }
+
+    .faq-question {
+      font-size: 15px;
+      font-weight: 500;
+    }
+
+    .faq-toggle {
+      width: 26px;
+      height: 26px;
+      border-radius: 999px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(248, 248, 255, 0.9);
+      border: 1px solid rgba(227, 228, 238, 0.95);
+      font-size: 16px;
+      color: var(--accent-1);
+      transition: transform var(--transition-fast),
+        background-color var(--transition-fast),
+        border-color var(--transition-fast);
+    }
+
+    .faq-content {
+      max-height: 0;
+      overflow: hidden;
+      padding: 0 18px;
+      font-size: 14px;
+      color: var(--text-muted);
+      transition: max-height 0.3s ease, padding 0.3s ease;
+    }
+
+    .faq-item.open {
+      border-color: rgba(201, 122, 58, 0.6);
+      background: #ffffff;
+      box-shadow: 0 18px 55px rgba(15, 23, 42, 0.14);
+    }
+
+    .faq-item.open .faq-toggle {
+      transform: rotate(45deg);
+      background-image: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+      color: #ffffff;
+      border-color: transparent;
+    }
+
+    .faq-item.open .faq-content {
+      padding: 0 18px 14px;
+    }
+
+    /* CTA FINAL */
+    .cta-final {
+      padding-bottom: 70px;
+    }
+
+    .cta-inner {
+      border-radius: 28px;
+      padding: 34px 26px 30px;
+      background-image: linear-gradient(120deg, var(--accent-1), var(--accent-2));
+      color: #ffffff;
+      box-shadow: 0 30px 90px rgba(201, 122, 58, 0.8);
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(0, 1.4fr);
+      gap: 28px;
+      align-items: center;
+    }
+
+    .cta-inner h2 {
+      margin: 0 0 8px;
+      font-size: 24px;
+    }
+
+    .cta-inner p {
+      margin: 0;
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.85);
+      max-width: 360px;
+    }
+
+    .cta-form {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      justify-content: flex-end;
+    }
+
+    .cta-input-wrap {
+      flex: 1 1 220px;
+      position: relative;
+    }
+
+    .cta-input-wrap input {
+      width: 100%;
+      padding: 13px 14px 13px 36px;
+      border-radius: 999px;
+      border: none;
+      outline: none;
+      font-size: 14px;
+      background: rgba(255, 255, 255, 0.12);
+      color: #ffffff;
+      box-shadow: inset 0 0 0 1px rgba(248, 250, 252, 0.35);
+    }
+
+    .cta-input-wrap input::placeholder {
+      color: rgba(255, 255, 255, 0.65);
+    }
+
+    .cta-input-icon {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.8);
+    }
+
+    .btn-cta {
+      padding-inline: 22px;
+      background: #ffffff;
+      color: #111827;
+      box-shadow: 0 14px 40px rgba(15, 23, 42, 0.3);
+    }
+
+    .btn-cta:hover {
+      background: #f9fafb;
+    }
+
+    /* FOOTER */
+    footer {
+      background: #f0f1f7;
+      border-top: 1px solid rgba(227, 228, 238, 0.9);
+      padding: 34px 0 20px;
+      font-size: 13px;
+      color: #6b6e7a;
+    }
+
+    .footer-top {
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) repeat(3, minmax(0, 0.7fr));
+      gap: 30px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid rgba(212, 214, 224, 0.9);
+    }
+
+    .footer-brand {
+      max-width: 280px;
+    }
+
+    .footer-brand p {
+      margin: 8px 0 0;
+    }
+
+    .footer-col-title {
+      font-size: 13px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      margin-bottom: 10px;
+      color: #4b4f5c;
+    }
+
+    .footer-links {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .footer-links li {
+      margin-bottom: 6px;
+    }
+
+    .footer-links a {
+      color: inherit;
+      transition: color var(--transition-fast);
+    }
+
+    .footer-links a:hover {
+      color: #111827;
+    }
+
+    .footer-bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding-top: 14px;
+      font-size: 12px;
+      flex-wrap: wrap;
+    }
+
+    .footer-social {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .social-icon {
+      width: 26px;
+      height: 26px;
+      border-radius: 999px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #ffffff;
+      border: 1px solid rgba(209, 213, 219, 0.9);
+      transition: background-color var(--transition-fast),
+        transform var(--transition-fast),
+        border-color var(--transition-fast);
+      cursor: pointer;
+      color: #4b5563;
+      font-size: 13px;
+    }
+
+    .social-icon:hover {
+      background-image: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+      color: #ffffff;
+      border-color: transparent;
+      transform: translateY(-1px);
+      box-shadow: 0 12px 30px rgba(15, 23, 42, 0.25);
+    }
+
+    /* SCROLL REVEAL */
+    .reveal {
+      opacity: 0;
+      transform: translateY(22px);
+      transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 960px) {
+      .navbar-inner {
+        padding-inline: 16px;
+        gap: 10px;
+      }
+      .nav-links {
+        display: none;
+      }
+      .burger {
+        display: inline-flex;
+      }
+      .nav-cta span {
+        display: none;
+      }
+      .nav-cta {
+        gap: 8px;
+      }
+
+      .hero-grid {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 28px;
+      }
+      .hero-right {
+        order: -1;
+        margin-bottom: 6px;
+      }
+      .hero-left h1 {
+        font-size: clamp(30px, 7vw, 40px);
+      }
+      .hero-left p.hero-subtitle {
+        font-size: 15px;
+      }
+      .hero-checks {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+      .hero-floating-card {
+        right: -10px;
+        bottom: 16px;
+        transform: scale(0.95);
+      }
+
+      .stats-inner,
+      .cta-inner {
+        grid-template-columns: minmax(0, 1fr);
+      }
+      .stats-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .benefits-grid,
+      .testimonials-grid,
+      .pricing-grid,
+      .steps-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .footer-top {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 640px) {
+      .benefits-grid,
+      .testimonials-grid,
+      .pricing-grid,
+      .steps-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+      .hero-checks {
+        grid-template-columns: minmax(0, 1fr);
+      }
+      .hero-actions {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .hero-floating-card {
+        position: static;
+        margin-top: 14px;
+        animation: none;
+        transform: none;
+      }
+      .steps-connector {
+        display: none;
+      }
+      .cta-inner {
+        padding: 24px 20px 24px;
+      }
+      footer {
+        padding-top: 26px;
+      }
+      .footer-top {
+        grid-template-columns: minmax(0, 1fr);
+      }
+      .footer-bottom {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- NAVBAR -->
+  <header class="navbar">
+    <div class="navbar-inner">
+      <a href="#top" class="logo">
+        <div class="logo-mark">B</div>
+        <span>Beverage office</span>
+      </a>
+      <nav class="nav-links mobile-hidden" id="navLinks">
+        <a href="#services">Услуги</a>
+        <a href="#benefits">Преимущества</a>
+        <a href="#stats">Цифры</a>
+        <a href="#pricing">Тарифы</a>
+        <a href="#faq">FAQ</a>
+      </nav>
+      <div class="nav-cta">
+        <span>Связаться: <strong>+7 (777) 378‑83‑46</strong></span>
+        <button class="btn-outline" onclick="document.getElementById('cta').scrollIntoView({behavior:'smooth'})">
+          Запросить консультацию
+        </button>
+        <button class="burger" id="burgerBtn" aria-label="Открыть меню">
+          <div class="burger-line"></div>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <main id="top">
+    <section class="hero">
+      <div class="hero-bg-grid"></div>
+      <div class="container hero-grid">
+        <div class="hero-left reveal">
+          <div class="hero-badge">
+            <div class="hero-badge-dot"></div>
+            <span>Консалтинг баров и кофеен под ключ</span>
+          </div>
+          <h1>
+            Премиальный <span class="accent-gradient">барный консалтинг</span>
+            для тех, кто считает каждый миллилитр прибыли.
+          </h1>
+          <p class="hero-subtitle">
+            Строим бизнес в HoReCa на цифрах, а не на вдохновении.
+            Beverage office помогает кофейням, барам и ресторанам повышать маржу,
+            стандартизировать сервис и превращать каждый визит гостя в запоминающийся опыт.
+          </p>
+          <div class="hero-checks">
+            <div class="hero-check">
+              <div class="hero-check-icon">✓</div>
+              <span>Рост выручки от 20% за 3 месяца</span>
+            </div>
+            <div class="hero-check">
+              <div class="hero-check-icon">✓</div>
+              <span>Сильная команда бариста и барменов</span>
+            </div>
+            <div class="hero-check">
+              <div class="hero-check-icon">✓</div>
+              <span>Чёткие стандарты и контроль качества</span>
+            </div>
+          </div>
+          <div class="hero-actions">
+            <button class="btn-gradient" onclick="document.getElementById('pricing').scrollIntoView({behavior:'smooth'})">
+              Посмотреть тарифы
+            </button>
+            <button class="btn-outline" onclick="document.getElementById('cta').scrollIntoView({behavior:'smooth'})">
+              Получить бесплатный аудит
+            </button>
+          </div>
+          <div class="hero-clients">
+            <div class="hero-avatars">
+              <div class="avatar" style="background-image:url('https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=200&q=80');"></div>
+              <div class="avatar" style="background-image:url('https://images.unsplash.com/photo-1525134479668-1bee5c7c6845?auto=format&fit=crop&w=200&q=80');"></div>
+              <div class="avatar" style="background-image:url('https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=200&q=80');"></div>
+              <div class="avatar more">+</div>
+            </div>
+            <span>1200+ довольных владельцев баров и кофеен по СНГ</span>
+          </div>
+        </div>
+
+        <div class="hero-right reveal">
+          <div class="hero-photo-wrap">
+            <div class="hero-photo-inner">
+              <img
+                src="https://images.unsplash.com/photo-1517705008128-361805f42e86?auto=format&fit=crop&w=900&q=80"
+                alt="Барный консультант Beverage office"
+              />
+            </div>
+            <div class="hero-photo-glow"></div>
+            <div class="hero-floating-card">
+              <div class="hero-floating-row">
+                <strong>Средний рост выручки</strong>
+                <span class="rating-stars">★★★★★</span>
+              </div>
+              <div class="hero-floating-row" style="font-size:13px;">
+                <span>За первые 120 дней сотрудничества.</span>
+              </div>
+              <div class="hero-floating-row">
+                <div class="hero-floating-chip">
+                  <span class="dot"></span>
+                  <span>+27% к обороту по бару</span>
+                </div>
+                <span style="font-size:11px;color:rgba(226,232,240,0.8);">по данным клиентов 2024–2025</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MARQUEE -->
+    <section class="marquee">
+      <div class="container">
+        <div class="marquee-inner">
+          <span class="marquee-logo">Roastery Lab</span>
+          <span class="marquee-logo">Craft Bar Group</span>
+          <span class="marquee-logo">City Coffee Point</span>
+          <span class="marquee-logo">Hotel &amp; Lounge Collection</span>
+          <span class="marquee-logo">Specialty Hub</span>
+          <span class="marquee-logo">Fine Spirits Club</span>
+
+          <span class="marquee-logo">Roastery Lab</span>
+          <span class="marquee-logo">Craft Bar Group</span>
+          <span class="marquee-logo">City Coffee Point</span>
+          <span class="marquee-logo">Hotel &amp; Lounge Collection</span>
+          <span class="marquee-logo">Specialty Hub</span>
+          <span class="marquee-logo">Fine Spirits Club</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- BENEFITS -->
+    <section id="benefits">
+      <div class="container reveal">
+        <div class="section-label">Почему Beverage office</div>
+        <h2 class="section-title">Премиальный подход к развитию вашего бара и кофейни.</h2>
+        <p class="section-description">
+          Мы совмещаем операционный консалтинг, продуктовый дизайн и обучение команды,
+          чтобы ваша барная зона работала как отлаженный бизнес‑инструмент, а не как «чёрный ящик» расходов.
+        </p>
+        <div class="benefits-grid">
+          <article class="card">
+            <div class="card-icon-circle">📊</div>
+            <h3>Финансовый акцент</h3>
+            <p>Считаем каждую позицию: от себестоимости шота эспрессо до маржи на авторских коктейлях.</p>
+            <div class="card-hover-glow"></div>
+          </article>
+          <article class="card">
+            <div class="card-icon-circle">🧾</div>
+            <h3>Стандарты и чек‑листы</h3>
+            <p>Создаём понятные регламенты, карты напитков и чек‑листы для ежедневного контроля качества.</p>
+            <div class="card-hover-glow"></div>
+          </article>
+          <article class="card">
+            <div class="card-icon-circle">👨‍🏫</div>
+            <h3>Обучение команды</h3>
+            <p>Проводим тренинги для бариста и барменов, выстраивая культуру сервиса и апселлинга.</p>
+            <div class="card-hover-glow"></div>
+          </article>
+          <article class="card">
+            <div class="card-icon-circle">🥃</div>
+            <h3>Меню, которое продаёт</h3>
+            <p>Разрабатываем напиточное меню, которое отражает концепцию заведения и увеличивает средний чек.</p>
+            <div class="card-hover-glow"></div>
+          </article>
+          <article class="card">
+            <div class="card-icon-circle">🧩</div>
+            <h3>Интеграция в процессы</h3>
+            <p>Не ломаем то, что уже работает: аккуратно внедряем изменения в текущие операционные процессы.</p>
+            <div class="card-hover-glow"></div>
+          </article>
+          <article class="card">
+            <div class="card-icon-circle">🤝</div>
+            <h3>Сопровождение «под ключ»</h3>
+            <p>От первого аудита до запуска и ежемесячного мониторинга ключевых метрик бара и кофейни.</p>
+            <div class="card-hover-glow"></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- STATS -->
+    <section id="stats" class="stats-section">
+      <div class="container reveal">
+        <div class="stats-inner">
+          <div class="stats-text">
+            <h2>Цифры, за которые мы отвечаем.</h2>
+            <p>
+              Каждый проект Beverage office сопровождается прозрачной аналитикой и понятными KPI.
+              Мы фиксируем состав работ и срок, а вы видите динамику по качеству процессов и стандартов.
+            </p>
+          </div>
+          <div class="stats-grid">
+            <div class="stat-item">
+              <h3 class="counter" data-target="1200">0</h3>
+              <span>завершённых проектов</span>
+            </div>
+            <div class="stat-item">
+              <h3 class="counter" data-target="27">0</h3>
+              <span>средний рост выручки, %</span>
+            </div>
+            <div class="stat-item">
+              <h3 class="counter" data-target="18">0</h3>
+              <span>стран присутствия</span>
+            </div>
+            <div class="stat-item">
+              <h3 class="counter" data-target="94">0</h3>
+              <span>повторных обращений, %</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- HOW IT WORKS -->
+    <section id="services">
+      <div class="container reveal">
+        <div class="section-label">Как это работает</div>
+        <h2 class="section-title">От первого аудита до масштабируемой барной модели.</h2>
+        <p class="section-description">
+          В нашем процессе нет случайностей: каждый этап выстроен так, чтобы вы получали конкретный результат —
+          в цифрах, стандартах и качестве напитков.
+        </p>
+        <div class="steps-grid">
+          <div class="steps-connector"></div>
+          <article class="step-card">
+            <div class="step-number">01</div>
+            <div class="step-icon">🔍</div>
+            <h3>Глубокий аудит</h3>
+            <p>Анализируем текущие показатели бара, карту напитков, процессы закупок и работу команды.</p>
+          </article>
+          <article class="step-card">
+            <div class="step-number">02</div>
+            <div class="step-icon">📐</div>
+            <h3>Дизайн решения</h3>
+            <p>Формируем стратегию, новую структуру меню, стандарты сервиса, KPI и систему контроля.</p>
+          </article>
+          <article class="step-card">
+            <div class="step-number">03</div>
+            <div class="step-icon">🚀</div>
+            <h3>Внедрение и поддержка</h3>
+            <p>Обучаем персонал, сопровождаем запуск, регулярно сверяемся по цифрам и корректируем стратегию.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- TESTIMONIALS -->
+    <section id="testimonials">
+      <div class="container reveal">
+        <div class="section-label">Отзывы клиентов</div>
+        <h2 class="section-title">Нас рекомендуют тем, кому важна каждая деталь в бокале.</h2>
+        <p class="section-description">
+          Больше 1200 собственников баров и кофеен доверили нам свои команды и напиточные карты.
+          Вот лишь часть того, что они говорят о сотрудничестве с Beverage office.
+        </p>
+        <div class="testimonials-grid">
+          <article class="testimonial-card">
+            <p class="testimonial-text">
+              «За полгода работы с Beverage office мы переработали барное меню,
+              оптимизировали закупки и подняли маржу по ключевым позициям на 32%. Команда стала
+              продавать осознанно, а не “на автомате”.»
+            </p>
+            <div class="testimonial-footer">
+              <div class="avatar-initials">ИМ</div>
+              <div class="testimonial-info">
+                <h4>Ирина М.</h4>
+                <span>владелица сети городских кофеен</span>
+              </div>
+              <div class="testimonial-stars">★★★★★</div>
+            </div>
+          </article>
+          <article class="testimonial-card">
+            <p class="testimonial-text">
+              «Ранее бар был просто дополнением к кухне. Сейчас это самостоятельный источник прибыли
+              с чёткими стандартами и контролем. Особенно ценю честность ребят и внимание к деталям.»
+            </p>
+            <div class="testimonial-footer">
+              <div class="avatar-initials">АС</div>
+              <div class="testimonial-info">
+                <h4>Алексей С.</h4>
+                <span>управляющий рестораном при отеле</span>
+              </div>
+              <div class="testimonial-stars">★★★★★</div>
+            </div>
+          </article>
+          <article class="testimonial-card">
+            <p class="testimonial-text">
+              «Beverage office помогли выстроить работу бара в новом проекте с нуля: от концепции до
+              обучения персонала. Запуск прошёл мягко, гости сразу оценили проработанное меню и сервис.»
+            </p>
+            <div class="testimonial-footer">
+              <div class="avatar-initials">ДР</div>
+              <div class="testimonial-info">
+                <h4>Дамир Р.</h4>
+                <span>сооснователь бара формата speakeasy</span>
+              </div>
+              <div class="testimonial-stars">★★★★★</div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- PRICING -->
+    <section id="pricing">
+      <div class="container reveal">
+        <div class="section-label">Тарифы</div>
+        <h2 class="section-title">Пакеты и услуги Beverage office.</h2>
+        <p class="section-description">
+          Пакеты Start, Pro и Premium — это проектные форматы с понятным сроком и результатом.
+          Дополнительно вы можете заказать разовые услуги и ежемесячное сопровождение по подписке.
+        </p>
+
+        <div class="billing-toggle" id="billingToggle" aria-label="Переключение периодичности оплаты">
+          <button data-billing="monthly" class="active">Пакет</button>
+          <button data-billing="yearly">Пакет + подписка</button>
+          <span class="billing-badge">гибкая конфигурация под задачи</span>
+        </div>
+
+        <div class="pricing-grid">
+          <!-- START -->
+          <article class="pricing-card" data-plan="start">
+            <h3 class="pricing-name">Start</h3>
+            <p class="pricing-desc">
+              Одноразовый пакет на 1–2 недели для быстрого наведения порядка в меню и базовых процессах.
+            </p>
+            <div class="pricing-price">
+              <strong class="price-amount" data-monthly="250" data-yearly="400">от&nbsp;250&nbsp;000₸</strong>
+              <span class="price-period">за 1–2 недели работы</span>
+            </div>
+            <ul class="pricing-list">
+              <li>Корректировка меню до 15 позиций</li>
+              <li>Разработка техкарт до 10 напитков</li>
+              <li>Онлайн‑консультации до 5 часов</li>
+              <li>Рекомендации по закупкам и ценовой политике</li>
+            </ul>
+            <button class="btn-outline" onclick="document.getElementById('cta').scrollIntoView({behavior:'smooth'})">
+              Выбрать пакет Start
+            </button>
+            <p class="pricing-footer-note">
+              Дополнительные позиции меню и техкарт оплачиваются отдельно по согласованному прайсу.
+            </p>
+          </article>
+
+          <!-- PRO -->
+          <article class="pricing-card highlight" data-plan="pro">
+            <div class="pricing-popular-badge">Популярный</div>
+            <h3 class="pricing-name">Pro</h3>
+            <p class="pricing-desc">
+              Глубокий проект на 2–4 недели для действующих баров и кофеен, которые хотят системных изменений.
+            </p>
+            <div class="pricing-price">
+              <strong class="price-amount" data-monthly="500" data-yearly="700">от&nbsp;500&nbsp;000₸</strong>
+              <span class="price-period">за 2–4 недели работы</span>
+            </div>
+            <ul class="pricing-list">
+              <li>Разработка полного меню с техкартами</li>
+              <li>Оптимизация себестоимости и структуры ассортимента</li>
+              <li>Организация открытия или рестарта точки</li>
+              <li>Обучение персонала на объекте</li>
+              <li>Пакет рекомендаций по развитию на 3–6 месяцев</li>
+            </ul>
+            <button class="btn-gradient" onclick="document.getElementById('cta').scrollIntoView({behavior:'smooth'})">
+              Забронировать консультацию Pro
+            </button>
+            <p class="pricing-footer-note">
+              Проекты «под ключ» с выездом и обучением обычно попадают в диапазон 800&nbsp;000–1&nbsp;500&nbsp;000₸.
+            </p>
+          </article>
+
+          <!-- PREMIUM -->
+          <article class="pricing-card" data-plan="premium">
+            <h3 class="pricing-name">Premium</h3>
+            <p class="pricing-desc">
+              Сопровождение 1–2 месяца «под ключ» для сетей и премиальных проектов с высоким требованием к деталям.
+            </p>
+            <div class="pricing-price">
+              <strong class="price-amount" data-monthly="1000" data-yearly="1500">от&nbsp;1&nbsp;000&nbsp;000₸</strong>
+              <span class="price-period">за 1–2 месяца работы</span>
+            </div>
+            <ul class="pricing-list">
+              <li>Разработка концепции бара и кофейни</li>
+              <li>Основное и сезонное меню с техкартами</li>
+              <li>Регламенты, стандарты сервиса и чек‑листы</li>
+              <li>Сопровождение запуска и пост‑поддержка</li>
+              <li>Настройка системы контроля качества и KPI</li>
+            </ul>
+            <button class="btn-outline" onclick="document.getElementById('cta').scrollIntoView({behavior:'smooth'})">
+              Обсудить проект Premium
+            </button>
+            <p class="pricing-footer-note">
+              Индивидуальный scope и сочетание проектной работы с ежемесячной подпиской по согласованию.
+            </p>
+          </article>
+        </div>
+
+        <p class="section-description" style="margin-top:26px;font-size:14px;">
+          <strong>Примеры разовых услуг:</strong> выездной бар на событие — от 250&nbsp;000₸ (без алкоголя)
+          или 350&nbsp;000–600&nbsp;000₸ с полной комплектацией; консультация по меню/напиткам
+          — 50&nbsp;000–80&nbsp;000₸; мастер‑класс/тренинг (2–3 часа) — 120&nbsp;000–180&nbsp;000₸.
+          <br /><br />
+          <strong>Ежемесячная подписка:</strong> поддержка и консультации — 150&nbsp;000–250&nbsp;000₸/мес,
+          регулярное обучение персонала — 200&nbsp;000–300&nbsp;000₸/мес, контроль качества —
+          180&nbsp;000–300&nbsp;000₸/мес.
+        </p>
+
+        <p class="section-description" style="margin-top:10px;font-size:13px;">
+          Финансовые показатели Заказчика (выручка, прибыль, трафик) не являются KPI Исполнителя —
+          мы отвечаем за качество работ, стандарты и переданные материалы. В случае отсутствия
+          письменных возражений в течение 5 календарных дней услуги считаются принятыми.
+        </p>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq">
+      <div class="container reveal">
+        <div class="section-label">FAQ</div>
+        <h2 class="section-title">Частые вопросы о работе с Beverage office.</h2>
+        <p class="section-description">
+          Если вы не нашли ответа на свой вопрос — оставьте контакты в форме ниже,
+          и мы вернёмся с подробным разбором именно вашей ситуации.
+        </p>
+        <div class="faq-list">
+          <article class="faq-item">
+            <div class="faq-header">
+              <div class="faq-question">С чего начинается сотрудничество и нужен ли выезд на объект?</div>
+              <button class="faq-toggle" aria-label="Открыть вопрос">+</button>
+            </div>
+            <div class="faq-content">
+              Мы начинаем с онлайн‑созвона и базового анализа цифр: выручка, структура продаж,
+              текущие стандарты. После этого формируем гипотезы и при необходимости выезжаем на объект,
+              чтобы провести детальный аудит и замеры в «полевых» условиях.
+            </div>
+          </article>
+
+          <article class="faq-item">
+            <div class="faq-header">
+              <div class="faq-question">Сколько времени занимает внедрение изменений по бару и кофе?</div>
+              <button class="faq-toggle" aria-label="Открыть вопрос">+</button>
+            </div>
+            <div class="faq-content">
+              Базовые изменения (пересборка меню, корректировка закупок, первичные стандарты)
+              в формате Start занимают 1–2 недели. Формат Pro — в среднем 2–4 недели,
+              Premium‑проекты с глубоким сопровождением длятся 1–2 месяца.
+            </div>
+          </article>
+
+          <article class="faq-item">
+            <div class="faq-header">
+              <div class="faq-question">Работаете ли вы с уже действующими сетями и франшизами?</div>
+              <button class="faq-toggle" aria-label="Открыть вопрос">+</button>
+            </div>
+            <div class="faq-content">
+              Да. Для сетевых проектов мы создаём масштабируемые стандарты, матрицы напитков,
+              обучающие программы и систему мониторинга KPI, которую можно тиражировать в новые точки
+              и франчайзинговые форматы.
+            </div>
+          </article>
+
+          <article class="faq-item">
+            <div class="faq-header">
+              <div class="faq-question">Можете ли вы помочь только с разработкой меню без полного консалтинга?</div>
+              <button class="faq-toggle" aria-label="Открыть вопрос">+</button>
+            </div>
+            <div class="faq-content">
+              Да, вы можете заказать отдельную разработку меню, сезонных карт или выездной бар на событие.
+              При этом мы честно обозначаем, когда без корректировки процессов результат будет нестабилен,
+              и предлагаем оптимальный формат проекта или подписки.
+            </div>
+          </article>
+
+          <article class="faq-item">
+            <div class="faq-header">
+              <div class="faq-question">Как вы фиксируете результат и принимаете работы?</div>
+              <button class="faq-toggle" aria-label="Открыть вопрос">+</button>
+            </div>
+            <div class="faq-content">
+              Состав работ и сроки закрепляются в договоре и приложениях. Услуги считаются оказанными
+              после передачи меню, техкарт, регламентов и проведения обучения. Если в течение 5 календарных
+              дней вы не направляете письменные возражения, услуги считаются принятыми.
+            </div>
+          </article>
+
+          <article class="faq-item">
+            <div class="faq-header">
+              <div class="faq-question">Являются ли выручка и прибыль KPI для Beverage office?</div>
+              <button class="faq-toggle" aria-label="Открыть вопрос">+</button>
+            </div>
+            <div class="faq-content">
+              Финансовые показатели Заказчика (выручка, прибыль, трафик) не являются KPI Исполнителя,
+              так как зависят от множества внешних факторов. Наши KPI — это качество переданных материалов,
+              внедрение стандартов, обучение команды и прозрачность процессов контроля.
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- FINAL CTA -->
+    <section id="cta" class="cta-final">
+      <div class="container reveal">
+        <div class="cta-inner">
+          <div>
+            <h2>Готовы вывести бар и кофейню на новый уровень?</h2>
+            <p>
+              Оставьте email — мы отправим чек‑лист для экспресс‑аудита бара и предложим
+              формат сотрудничества под ваши задачи.
+            </p>
+          </div>
+          <form class="cta-form" onsubmit="event.preventDefault(); alert('Спасибо! Мы свяжемся с вами в ближайшее время.');">
+            <div class="cta-input-wrap">
+              <span class="cta-input-icon">@</span>
+              <input type="email" placeholder="Ваш рабочий email" required />
+            </div>
+            <button type="submit" class="btn-gradient btn-cta">
+              Получить чек‑лист и консультацию
+            </button>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <div class="logo">
+            <div class="logo-mark">B</div>
+            <span>Beverage office</span>
+          </div>
+          <p>
+            Консалтинговое агентство по бару и кофе. Строим бизнес в HoReCa на цифрах, а не на вдохновении:
+            от разовых консультаций до сопровождения «под ключ».
+          </p>
+        </div>
+        <div>
+          <div class="footer-col-title">Навигация</div>
+          <ul class="footer-links">
+            <li><a href="#services">Услуги</a></li>
+            <li><a href="#benefits">Преимущества</a></li>
+            <li><a href="#pricing">Тарифы</a></li>
+            <li><a href="#faq">FAQ</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="footer-col-title">Контакты</div>
+          <ul class="footer-links">
+            <li><a href="tel:+77773788346">+7 (777) 378‑83‑46</a></li>
+            <li><a href="mailto:thebeverageoffice@gmail.com">thebeverageoffice@gmail.com</a></li>
+            <li>Кызылорда • Алматы • Шымкент • Астана и другие города</li>
+          </ul>
+        </div>
+        <div>
+          <div class="footer-col-title">Соцсети</div>
+          <div class="footer-social">
+            <a class="social-icon" href="https://wa.me/+77773788346" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">WA</a>
+            <a class="social-icon" href="https://t.me/Beverageoffice" target="_blank" rel="noopener noreferrer" aria-label="Telegram">TG</a>
+            <a class="social-icon" href="https://www.instagram.com/thebeverageoffice" target="_blank" rel="noopener noreferrer" aria-label="Instagram">IG</a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 Beverage office. Все права защищены.</span>
+        <span>Создано для владельцев баров и кофеен, которые считают цифры.</span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Burger menu
+    const burgerBtn = document.getElementById('burgerBtn');
+    const navLinks = document.getElementById('navLinks');
+
+    if (burgerBtn) {
+      burgerBtn.addEventListener('click', () => {
+        if (navLinks.classList.contains('mobile-show')) {
+          navLinks.classList.remove('mobile-show');
+        } else {
+          navLinks.classList.add('mobile-show');
+        }
+      });
+    }
+
+    // Scroll reveal
+    const revealElements = document.querySelectorAll('.reveal');
+
+    const revealObserver = new IntersectionObserver(
+      entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            revealObserver.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.12 }
+    );
+
+    revealElements.forEach(el => revealObserver.observe(el));
+
+    // Counter animation
+    const counters = document.querySelectorAll('.counter');
+    let countersStarted = false;
+
+    function startCounters() {
+      if (countersStarted) return;
+      countersStarted = true;
+
+      counters.forEach(counter => {
+        const target = +counter.dataset.target;
+        const duration = 1600;
+        const startTime = performance.now();
+
+        function update(now) {
+          const progress = Math.min((now - startTime) / duration, 1);
+          const value = Math.floor(target * progress);
+          counter.textContent = value.toLocaleString('ru-RU');
+          if (progress < 1) requestAnimationFrame(update);
+        }
+        requestAnimationFrame(update);
+      });
+    }
+
+    const statsSection = document.getElementById('stats');
+    if (statsSection) {
+      const countersObserver = new IntersectionObserver(
+        entries => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              startCounters();
+              countersObserver.disconnect();
+            }
+          });
+        },
+        { threshold: 0.3 }
+      );
+      countersObserver.observe(statsSection);
+    }
+
+    // Pricing toggle
+    const billingToggle = document.getElementById('billingToggle');
+    if (billingToggle) {
+      billingToggle.addEventListener('click', event => {
+        const btn = event.target.closest('button[data-billing]');
+        if (!btn) return;
+
+        const selected = btn.dataset.billing;
+        billingToggle.querySelectorAll('button[data-billing]').forEach(b =>
+          b.classList.toggle('active', b === btn)
+        );
+
+        document.querySelectorAll('.price-amount').forEach(el => {
+          const base = el.dataset.monthly;
+          const withSub = el.dataset.yearly;
+          const periodSpan = el.closest('.pricing-card').querySelector('.price-period');
+          if (selected === 'monthly') {
+            el.innerHTML = 'от&nbsp;' + base + '&nbsp;000₸';
+            if (periodSpan && periodSpan.textContent.includes('подписки')) {
+              periodSpan.textContent = periodSpan.textContent.replace(' + 1 месяц подписки', '');
+            }
+          } else {
+            el.innerHTML = 'от&nbsp;' + withSub + '&nbsp;000₸';
+            if (periodSpan && !periodSpan.textContent.includes('подписки')) {
+              periodSpan.textContent += ' + 1 месяц подписки';
+            }
+          }
+        });
+      });
+    }
+
+    // FAQ accordion
+    document.querySelectorAll('.faq-item').forEach(item => {
+      const header = item.querySelector('.faq-header');
+      const content = item.querySelector('.faq-content');
+
+      header.addEventListener('click', () => {
+        const isOpen = item.classList.contains('open');
+
+        document.querySelectorAll('.faq-item.open').forEach(openItem => {
+          if (openItem !== item) {
+            openItem.classList.remove('open');
+            const openContent = openItem.querySelector('.faq-content');
+            openContent.style.maxHeight = null;
+          }
+        });
+
+        if (!isOpen) {
+          item.classList.add('open');
+          content.style.maxHeight = content.scrollHeight + 'px';
+        } else {
+          item.classList.remove('open');
+          content.style.maxHeight = null;
+        }
+      });
+    });
+  </script>
+</body>
+</html>
