@@ -649,6 +649,38 @@
       margin-bottom: 30px;
     }
 
+    /* ONE PAGER */
+    .one-pager-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
+      gap: 22px;
+      align-items: start;
+    }
+
+    .one-pager-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      align-items: center;
+      margin-top: 16px;
+    }
+
+    .pdf-embed {
+      width: 100%;
+      aspect-ratio: 16 / 11;
+      border-radius: 22px;
+      border: 1px solid rgba(227, 228, 238, 0.95);
+      box-shadow: var(--shadow-subtle);
+      overflow: hidden;
+      background: #ffffff;
+    }
+
+    .pdf-embed iframe {
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+
     /* BENEFITS */
     .benefits-grid {
       display: grid;
@@ -1412,6 +1444,10 @@
         grid-template-columns: repeat(2, minmax(0, 1fr));
       }
 
+      .one-pager-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
       .footer-top {
         grid-template-columns: repeat(2, minmax(0, 1fr));
       }
@@ -1483,6 +1519,7 @@
         <a href="#services">Услуги</a>
         <a href="#benefits">Преимущества</a>
         <a href="#stats">Цифры</a>
+        <a href="#onepager">1 pager</a>
         <a href="#pricing">Тарифы</a>
         <a href="#faq">FAQ</a>
       </nav>
@@ -1882,6 +1919,44 @@
           мы отвечаем за качество работ, стандарты и переданные материалы. В случае отсутствия
           письменных возражений в течение 5 календарных дней услуги считаются принятыми.
         </p>
+      </div>
+    </section>
+
+    <!-- ONE PAGER -->
+    <section id="onepager">
+      <div class="container reveal">
+        <div class="section-label">Материалы</div>
+        <h2 class="section-title">1 pager Beverage office</h2>
+        <p class="section-description">
+          Короткая презентация в PDF: что делаем, как работаем и какие результаты даём.
+        </p>
+
+        <div class="one-pager-grid">
+          <div class="card">
+            <div class="card-icon-circle">📄</div>
+            <h3>Скачать или открыть</h3>
+            <p>
+              Если просмотр внутри страницы не открылся (иногда блокируют браузеры) — используйте кнопки ниже.
+            </p>
+            <div class="one-pager-actions">
+              <a class="btn-gradient" href="Pdf/1-pager.pdf" target="_blank" rel="noopener noreferrer">
+                Открыть PDF
+              </a>
+              <a class="btn-outline" href="Pdf/1-pager.pdf" download>
+                Скачать
+              </a>
+            </div>
+            <div class="card-hover-glow"></div>
+          </div>
+
+          <div class="pdf-embed" aria-label="Просмотр PDF 1 pager">
+            <iframe
+              src="Pdf/1-pager.pdf#view=FitH"
+              loading="lazy"
+              title="1 pager Beverage office (PDF)"
+            ></iframe>
+          </div>
+        </div>
       </div>
     </section>
 
