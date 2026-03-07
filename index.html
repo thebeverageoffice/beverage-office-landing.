@@ -963,6 +963,10 @@
     }
 
     /* PRICING */
+    .pricing-view.hidden {
+      display: none;
+    }
+
     .billing-toggle {
       display: inline-flex;
       align-items: center;
@@ -1817,102 +1821,222 @@
         <div class="section-label">Тарифы</div>
         <h2 class="section-title">Пакеты и услуги Beverage office.</h2>
         <p class="section-description">
-          Пакеты Start, Pro и Premium — это проектные форматы с понятным сроком и результатом.
-          Дополнительно вы можете заказать разовые услуги и ежемесячное сопровождение по подписке.
+          Выберите готовый пакет под задачу или подключите ежемесячное сопровождение. Также доступны отдельные услуги:
+          разработка напитков, аудит, обучение и запуск «под ключ».
         </p>
 
-        <div class="billing-toggle" id="billingToggle" aria-label="Переключение периодичности оплаты">
-          <button data-billing="monthly" class="active">Пакет</button>
-          <button data-billing="yearly">Пакет + подписка</button>
-          <span class="billing-badge">гибкая конфигурация под задачи</span>
+        <div class="billing-toggle" id="pricingViewToggle" aria-label="Переключение вида тарифов">
+          <button data-pricing-view="packages" class="active">Готовые пакеты</button>
+          <button data-pricing-view="subscription">Подписка</button>
+          <span class="billing-badge">цены в ₸</span>
         </div>
 
-        <div class="pricing-grid">
-          <!-- START -->
-          <article class="pricing-card" data-plan="start">
-            <h3 class="pricing-name">Start</h3>
-            <p class="pricing-desc">
-              Одноразовый пакет на 1–2 недели для быстрого наведения порядка в меню и базовых процессах.
-            </p>
-            <div class="pricing-price">
-              <strong class="price-amount" data-monthly="250" data-yearly="400">от&nbsp;250&nbsp;000₸</strong>
-              <span class="price-period">за 1–2 недели работы</span>
-            </div>
-            <ul class="pricing-list">
-              <li>Корректировка меню до 15 позиций</li>
-              <li>Разработка техкарт до 10 напитков</li>
-              <li>Онлайн‑консультации до 5 часов</li>
-              <li>Рекомендации по закупкам и ценовой политике</li>
-            </ul>
-            <button class="btn-outline" onclick="document.getElementById('cta').scrollIntoView({behavior:'smooth'})">
-              Выбрать пакет Start
-            </button>
-            <p class="pricing-footer-note">
-              Дополнительные позиции меню и техкарт оплачиваются отдельно по согласованному прайсу.
-            </p>
-          </article>
+        <div class="pricing-view" data-pricing-view="packages">
+          <div class="pricing-grid">
+            <!-- START -->
+            <article class="pricing-card" data-plan="start">
+              <h3 class="pricing-name">START</h3>
+              <p class="pricing-desc">
+                Быстрый пакет для наведения порядка и запуска продаж через понятные техкарты и базовый аудит.
+              </p>
+              <div class="pricing-price">
+                <strong class="price-amount">350&nbsp;000₸</strong>
+                <span class="price-period">за проект</span>
+              </div>
+              <ul class="pricing-list">
+                <li>Аудит бара / кофейни</li>
+                <li>5 напитков</li>
+                <li>Техкарты</li>
+              </ul>
+              <button class="btn-outline" onclick="document.getElementById('cta').scrollIntoView({behavior:'smooth'})">
+                Выбрать START
+              </button>
+            </article>
 
-          <!-- PRO -->
-          <article class="pricing-card highlight" data-plan="pro">
-            <div class="pricing-popular-badge">Популярный</div>
-            <h3 class="pricing-name">Pro</h3>
-            <p class="pricing-desc">
-              Глубокий проект на 2–4 недели для действующих баров и кофеен, которые хотят системных изменений.
-            </p>
-            <div class="pricing-price">
-              <strong class="price-amount" data-monthly="500" data-yearly="700">от&nbsp;500&nbsp;000₸</strong>
-              <span class="price-period">за 2–4 недели работы</span>
-            </div>
-            <ul class="pricing-list">
-              <li>Разработка полного меню с техкартами</li>
-              <li>Оптимизация себестоимости и структуры ассортимента</li>
-              <li>Организация открытия или рестарта точки</li>
-              <li>Обучение персонала на объекте</li>
-              <li>Пакет рекомендаций по развитию на 3–6 месяцев</li>
-            </ul>
-            <button class="btn-gradient" onclick="document.getElementById('cta').scrollIntoView({behavior:'smooth'})">
-              Забронировать консультацию Pro
-            </button>
-            <p class="pricing-footer-note">
-              Проекты «под ключ» с выездом и обучением обычно попадают в диапазон 800&nbsp;000–1&nbsp;500&nbsp;000₸.
-            </p>
-          </article>
+            <!-- PRO -->
+            <article class="pricing-card highlight" data-plan="pro">
+              <div class="pricing-popular-badge">Популярный</div>
+              <h3 class="pricing-name">PRO</h3>
+              <p class="pricing-desc">
+                Пакет для системной пересборки напитков и обучения команды, чтобы стандарты работали в смене.
+              </p>
+              <div class="pricing-price">
+                <strong class="price-amount">650&nbsp;000₸</strong>
+                <span class="price-period">за проект</span>
+              </div>
+              <ul class="pricing-list">
+                <li>Разработка меню</li>
+                <li>10 напитков</li>
+                <li>Техкарты</li>
+                <li>Обучение персонала</li>
+              </ul>
+              <button class="btn-gradient" onclick="document.getElementById('cta').scrollIntoView({behavior:'smooth'})">
+                Забронировать PRO
+              </button>
+            </article>
 
-          <!-- PREMIUM -->
-          <article class="pricing-card" data-plan="premium">
-            <h3 class="pricing-name">Premium</h3>
-            <p class="pricing-desc">
-              Сопровождение 1–2 месяца «под ключ» для сетей и премиальных проектов с высоким требованием к деталям.
-            </p>
-            <div class="pricing-price">
-              <strong class="price-amount" data-monthly="1000" data-yearly="1500">от&nbsp;1&nbsp;000&nbsp;000₸</strong>
-              <span class="price-period">за 1–2 месяца работы</span>
-            </div>
-            <ul class="pricing-list">
-              <li>Разработка концепции бара и кофейни</li>
-              <li>Основное и сезонное меню с техкартами</li>
-              <li>Регламенты, стандарты сервиса и чек‑листы</li>
-              <li>Сопровождение запуска и пост‑поддержка</li>
-              <li>Настройка системы контроля качества и KPI</li>
-            </ul>
-            <button class="btn-outline" onclick="document.getElementById('cta').scrollIntoView({behavior:'smooth'})">
-              Обсудить проект Premium
-            </button>
-            <p class="pricing-footer-note">
-              Индивидуальный scope и сочетание проектной работы с ежемесячной подпиской по согласованию.
-            </p>
-          </article>
+            <!-- PREMIUM -->
+            <article class="pricing-card" data-plan="premium">
+              <h3 class="pricing-name">PREMIUM</h3>
+              <p class="pricing-desc">
+                Максимальный пакет: концепция напитков, меню, обучение и сопровождение запуска «под ключ».
+              </p>
+              <div class="pricing-price">
+                <strong class="price-amount">1&nbsp;200&nbsp;000–1&nbsp;500&nbsp;000₸</strong>
+                <span class="price-period">за проект</span>
+              </div>
+              <ul class="pricing-list">
+                <li>Концепция напитков</li>
+                <li>Меню</li>
+                <li>Техкарты</li>
+                <li>Обучение</li>
+                <li>Сопровождение запуска</li>
+              </ul>
+              <button class="btn-outline" onclick="document.getElementById('cta').scrollIntoView({behavior:'smooth'})">
+                Обсудить PREMIUM
+              </button>
+            </article>
+          </div>
         </div>
 
-        <p class="section-description" style="margin-top:26px;font-size:14px;">
-          <strong>Примеры разовых услуг:</strong> выездной бар на событие — от 250&nbsp;000₸ (без алкоголя)
-          или 350&nbsp;000–600&nbsp;000₸ с полной комплектацией; консультация по меню/напиткам
-          — 50&nbsp;000–80&nbsp;000₸; мастер‑класс/тренинг (2–3 часа) — 120&nbsp;000–180&nbsp;000₸.
-          <br /><br />
-          <strong>Ежемесячная подписка:</strong> поддержка и консультации — 150&nbsp;000–250&nbsp;000₸/мес,
-          регулярное обучение персонала — 200&nbsp;000–300&nbsp;000₸/мес, контроль качества —
-          180&nbsp;000–300&nbsp;000₸/мес.
-        </p>
+        <div class="pricing-view hidden" data-pricing-view="subscription">
+          <div class="pricing-grid">
+            <!-- BASIC -->
+            <article class="pricing-card" data-plan="basic">
+              <h3 class="pricing-name">BASIC</h3>
+              <p class="pricing-desc">Ежемесячная поддержка для стабильной работы меню и команды.</p>
+              <div class="pricing-price">
+                <strong class="price-amount">120&nbsp;000₸</strong>
+                <span class="price-period">в месяц</span>
+              </div>
+              <ul class="pricing-list">
+                <li>Консультации</li>
+                <li>Корректировка меню</li>
+              </ul>
+              <button class="btn-outline" onclick="document.getElementById('cta').scrollIntoView({behavior:'smooth'})">
+                Подключить BASIC
+              </button>
+            </article>
+
+            <!-- SUB PRO -->
+            <article class="pricing-card highlight" data-plan="sub-pro">
+              <div class="pricing-popular-badge">Популярный</div>
+              <h3 class="pricing-name">PRO</h3>
+              <p class="pricing-desc">Регулярная работа с меню, людьми и качеством сервиса.</p>
+              <div class="pricing-price">
+                <strong class="price-amount">200&nbsp;000₸</strong>
+                <span class="price-period">в месяц</span>
+              </div>
+              <ul class="pricing-list">
+                <li>Консультации</li>
+                <li>Корректировка меню</li>
+                <li>Обучение персонала</li>
+                <li>Аудит работы</li>
+              </ul>
+              <button class="btn-gradient" onclick="document.getElementById('cta').scrollIntoView({behavior:'smooth'})">
+                Подключить PRO
+              </button>
+            </article>
+
+            <!-- PREMIUM -->
+            <article class="pricing-card" data-plan="sub-premium">
+              <h3 class="pricing-name">PREMIUM</h3>
+              <p class="pricing-desc">Максимальная вовлечённость и поддержка для роста и стандартизации.</p>
+              <div class="pricing-price">
+                <strong class="price-amount">350&nbsp;000₸</strong>
+                <span class="price-period">в месяц</span>
+              </div>
+              <ul class="pricing-list">
+                <li>Консультации</li>
+                <li>Корректировка меню</li>
+                <li>Обучение персонала</li>
+                <li>Аудит работы</li>
+              </ul>
+              <button class="btn-outline" onclick="document.getElementById('cta').scrollIntoView({behavior:'smooth'})">
+                Подключить PREMIUM
+              </button>
+            </article>
+          </div>
+        </div>
+
+        <div style="margin-top:36px;">
+          <h3 class="section-title" style="font-size:22px;margin-bottom:10px;">Отдельные услуги</h3>
+          <p class="section-description" style="margin-bottom:18px;">
+            Можно заказать любой модуль отдельно — если вам не нужен пакет «под ключ».
+          </p>
+
+          <div class="benefits-grid">
+            <article class="card">
+              <div class="card-icon-circle">🥤</div>
+              <h3>Разработка напитков</h3>
+              <p>Создание авторских напитков для кофеен, баров и ресторанов.</p>
+              <ul class="pricing-list" style="margin-top:14px;">
+                <li>3 напитка — 150&nbsp;000₸</li>
+                <li>5 напитков — 250&nbsp;000₸</li>
+                <li>10 напитков — 450&nbsp;000₸</li>
+                <li>Рецептура, ингредиенты, тест, себестоимость, техкарты</li>
+              </ul>
+              <div class="card-hover-glow"></div>
+            </article>
+
+            <article class="card">
+              <div class="card-icon-circle">📋</div>
+              <h3>Барное меню</h3>
+              <p>Создание полной концепции напитков и структуры меню для заведения.</p>
+              <ul class="pricing-list" style="margin-top:14px;">
+                <li>400&nbsp;000–700&nbsp;000₸</li>
+                <li>Меню, структура, подача, техкарты, себестоимость</li>
+              </ul>
+              <div class="card-hover-glow"></div>
+            </article>
+
+            <article class="card">
+              <div class="card-icon-circle">🔎</div>
+              <h3>Барный аудит</h3>
+              <p>Анализ текущей работы бара или кофейни с фокусом на прибыльность.</p>
+              <ul class="pricing-list" style="margin-top:14px;">
+                <li>200&nbsp;000₸</li>
+                <li>Скорость, меню, себестоимость, организация, прибыльность</li>
+              </ul>
+              <div class="card-hover-glow"></div>
+            </article>
+
+            <article class="card">
+              <div class="card-icon-circle">👨‍🏫</div>
+              <h3>Обучение персонала</h3>
+              <p>Практическое обучение барменов и бариста.</p>
+              <ul class="pricing-list" style="margin-top:14px;">
+                <li>180&nbsp;000₸ / день</li>
+                <li>Напитки, стандарты, скорость, оборудование</li>
+              </ul>
+              <div class="card-hover-glow"></div>
+            </article>
+
+            <article class="card">
+              <div class="card-icon-circle">🚀</div>
+              <h3>Запуск бара или кофейни</h3>
+              <p>Комплексное сопровождение запуска проекта.</p>
+              <ul class="pricing-list" style="margin-top:14px;">
+                <li>800&nbsp;000–1&nbsp;500&nbsp;000₸</li>
+                <li>Меню, техкарты, обучение, процессы, сопровождение запуска</li>
+              </ul>
+              <div class="card-hover-glow"></div>
+            </article>
+
+            <article class="card">
+              <div class="card-icon-circle">🎉</div>
+              <h3>Разовые услуги</h3>
+              <p>Точечные задачи под событие или быстрый результат.</p>
+              <ul class="pricing-list" style="margin-top:14px;">
+                <li>Выездной бар — от 250&nbsp;000₸ (без алкоголя)</li>
+                <li>Полная комплектация — 350&nbsp;000–600&nbsp;000₸</li>
+                <li>Консультация по меню/напиткам — 50&nbsp;000–80&nbsp;000₸</li>
+                <li>Мастер‑класс (2–3 часа) — 120&nbsp;000–180&nbsp;000₸</li>
+              </ul>
+              <div class="card-hover-glow"></div>
+            </article>
+          </div>
+        </div>
 
         <p class="section-description" style="margin-top:10px;font-size:13px;">
           Финансовые показатели Заказчика (выручка, прибыль, трафик) не являются KPI Исполнителя —
@@ -2188,33 +2312,21 @@
       countersObserver.observe(statsSection);
     }
 
-    // Pricing toggle
-    const billingToggle = document.getElementById('billingToggle');
-    if (billingToggle) {
-      billingToggle.addEventListener('click', event => {
-        const btn = event.target.closest('button[data-billing]');
+    // Pricing view toggle (packages / subscription)
+    const pricingViewToggle = document.getElementById('pricingViewToggle');
+    if (pricingViewToggle) {
+      const views = document.querySelectorAll('.pricing-view[data-pricing-view]');
+      pricingViewToggle.addEventListener('click', event => {
+        const btn = event.target.closest('button[data-pricing-view]');
         if (!btn) return;
+        const selected = btn.dataset.pricingView;
 
-        const selected = btn.dataset.billing;
-        billingToggle.querySelectorAll('button[data-billing]').forEach(b =>
-          b.classList.toggle('active', b === btn)
-        );
+        pricingViewToggle.querySelectorAll('button[data-pricing-view]').forEach(b => {
+          b.classList.toggle('active', b === btn);
+        });
 
-        document.querySelectorAll('.price-amount').forEach(el => {
-          const base = el.dataset.monthly;
-          const withSub = el.dataset.yearly;
-          const periodSpan = el.closest('.pricing-card').querySelector('.price-period');
-          if (selected === 'monthly') {
-            el.innerHTML = 'от&nbsp;' + base + '&nbsp;000₸';
-            if (periodSpan && periodSpan.textContent.includes('подписки')) {
-              periodSpan.textContent = periodSpan.textContent.replace(' + 1 месяц подписки', '');
-            }
-          } else {
-            el.innerHTML = 'от&nbsp;' + withSub + '&nbsp;000₸';
-            if (periodSpan && !periodSpan.text内容?.includes?.('подписки')) {
-              periodSpan.textContent += ' + 1 месяц подписки';
-            }
-          }
+        views.forEach(view => {
+          view.classList.toggle('hidden', view.dataset.pricingView !== selected);
         });
       });
     }
